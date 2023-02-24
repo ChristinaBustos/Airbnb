@@ -6,10 +6,12 @@ import { Image, Input, Button, Icon } from "@rneui/base";
 import Loading from "../../../../kernel/components/Loading";
 import { useState } from "react";
 import { validateEmail } from "../../../../kernel/components/validationEmail";
-//import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import axios from "../../../../kernel/http-client.gateway";
+import { async } from "@firebase/util";
 
 export default function CreateAccount() {
+  const auth = getAuth();
   const payload = {
     email: "",
     password: "",
@@ -38,25 +40,30 @@ export default function CreateAccount() {
         if (size(data.password) >= 6) {
           //validamos el tamaño de la contraseña
           if (data.password === data.repeatPassword) {
-            //validamos que las contraseñas sean iguales
-            //si paso todas las validaciones estamos listos para crear el usuario con los metodo de firebase
             setShow(true);
-            <Loading></Loading>;
             createUserWithEmailAndPassword(auth, data.email, data.password)
-              .then(async (userCredential) => {
+              .then((userCredential) => {
                 // Signed in
+                (async()=>{
+                  try {
+                    const object = {
+                      //colocar el payload del servidor
+                    }
+                    const response = await axios.doPost('/person/')
+                  } catch (error) {
+                    setShow(false)
+                    console.log("error",error);
+                  }
+                })()
                 const user = userCredential.user;
-                try {
-                  await AsyncStorage.setItem("@session", JSON.stringify(user));
-                } catch (e) {
-                  console.log("error at createUser --->", e);
-                }
-                setShow(true);
-                navigation.navigate("loginStack");
+                console.log("Usuario Creado",user);
+                // ...
               })
               .catch((error) => {
+                setShow(false);
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                // ..
               });
           } else {
             setError({
@@ -139,6 +146,7 @@ export default function CreateAccount() {
             onPress={CreateUser}
           />
         </View>
+        <Loading show={show} text="Registrando Usuario" />
       </View>
     </KeyboardAwareScrollView>
   );
