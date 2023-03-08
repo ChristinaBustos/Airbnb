@@ -44,19 +44,40 @@ export default function CreateAccount() {
             createUserWithEmailAndPassword(auth, data.email, data.password)
               .then((userCredential) => {
                 // Signed in
-                (async()=>{
+                (async () => {
                   try {
-                    const object = {
-                      //colocar el payload del servidor
-                    }
-                    const response = await axios.doPost('/person/')
+                    const user = userCredential.user;
+                    (async () => {
+                      try {
+                        const object = {
+                          birthday: null,
+                          full_name: null,
+                          user: {
+                            email: user.email,
+                            uid: user.uid,
+                            image_profile: "",
+                          },
+                        };
+                        const response = await axios.doPost("/person/", object);
+                        console.log("servidor", response);
+                        setShow(false);
+                      } catch (error) {
+                        setError({
+                          email: "",
+                          password: "No se pudo crear el usuario",
+                        });
+                        setShow(false);
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                      }
+                    })();
                   } catch (error) {
-                    setShow(false)
-                    console.log("error",error);
+                    setShow(false);
+                    console.log("error", error);
                   }
-                })()
+                })();
                 const user = userCredential.user;
-                console.log("Usuario Creado",user);
+                console.log("Usuario Creado", user);
                 // ...
               })
               .catch((error) => {
