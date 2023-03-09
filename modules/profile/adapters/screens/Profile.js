@@ -1,23 +1,43 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { Button } from '@rneui/base'
+import { getAuth } from 'firebase/auth'
 import Loading from '../../../../kernel/components/Loading'
-import UserLogged from './UserLogged'
-import { useNavigation } from '@react-navigation/native'
-import {getAuth, onAuthStateChanged} from 'firebase/auth'
 
 export default function Profile() {
-    const navigation = useNavigation()
-    const [user, setUser] = useState(null)
-    const [session, setSession] = useState(null)
-    useEffect(() => {
-        const auth = getAuth()
-        onAuthStateChanged(auth,(credencial)=>{
-            setUser(credencial)
-            !credencial ? setSession(false) : setSession(true)
-        })
-    }, [])
-    if (session == null) return <Loading show={true} text='Cargando'/>
-    return session ? (<UserLogged user={user}/>) : (<Login navigation={navigation}/>)
+    const auth = getAuth()
+    const [show, setShow] = useState(false)
+    const [text, setText] = useState('')
+    const cerrarSesion = () => {
+        setText('Cerrando sesión')
+        setShow(true)
+        return auth.signOut()
+    }
+  return (
+    <View style={styles.btnContainer}>
+            <Button
+                title='Cerrar sesión'
+                buttonStyle={styles.btn}
+                onPress={cerrarSesion}
+            >
+
+            </Button>
+            <Loading show={show} text={text} />
+        </View>
+  )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    btnContainer: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    btn: {
+        marginTop: 30,
+        backgroundColor: 'tomato',
+        paddingVertical: 10,
+        marginHorizontal: 20,
+        borderRadius: 10,
+        width: 250
+    },
+})

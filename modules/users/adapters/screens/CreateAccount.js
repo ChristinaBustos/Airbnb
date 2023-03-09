@@ -8,7 +8,7 @@ import { useState } from "react";
 import { validateEmail } from "../../../../kernel/components/validationEmail";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "../../../../kernel/http-client.gateway";
-import { async } from "@firebase/util";
+
 
 export default function CreateAccount() {
   const auth = getAuth();

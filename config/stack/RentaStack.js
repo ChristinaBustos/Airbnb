@@ -1,23 +1,23 @@
+import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Profile from '../../modules/profile/adapters/screens/Profile'
-
+import Renta from '../../modules/renta/adapters/screens/Renta'
 const Stack = createNativeStackNavigator()
 
-export default function ProfileStack() {
-    return (
-        <Stack.Navigator
+export default function RentaStack() {
+  return (
+    <Stack.Navigator
             screenOptions={{
-                headerShown: false,
+              headerShown: false,
                 headerMode: 'screen',
                 headerTintColor: 'white',
                 headerStyle: { backgroundColor: '#ff5a60' }
             }}>
             <Stack.Screen
-                name='profileStack'
-                options={{ title: 'Perfil' }}
-                component={Profile}
+                name='rentaStack'
+                options={{ title: 'Rentas' }}
+                component={Renta}
             />
         </Stack.Navigator>
-    )
+  )
 }

@@ -80,6 +80,7 @@ export default function Login() {
           }
           buttonStyle={styles.btnSuccess}
           containerStyle={styles.btnContainer}
+          onPress={login}
         />
 
         <Loading show={show} text="Iniciando sesión" />

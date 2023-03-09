@@ -3,7 +3,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Icon } from '@rneui/base'
 import ProfileStack from '../stack/ProfileStack'
-import AboutStack from '../stack/AboutStack'
+import RentaStack from '../stack/RentaStack'
+import HomeStack from '../stack/HomeStack'
 
 const Tab = createBottomTabNavigator();
 export default function NavigationLogged() {
@@ -18,13 +19,18 @@ export default function NavigationLogged() {
             })}
         >
             <Tab.Screen
-                name='about'
-                component={ProfileStack}
-                options={{title:'Bienvenido'}}
+                name='home'
+                component={HomeStack}
+                options={{title:'Home'}}
             />
             <Tab.Screen
-                name='profile'
-                component={AboutStack}
+                name='rentas'
+                component={RentaStack}
+                options={{title:'Rentas'}}
+            />
+            <Tab.Screen
+                name='perfil'
+                component={ProfileStack}
                 options={{title:'Perfil'}}
             />
         </Tab.Navigator>
@@ -34,12 +40,16 @@ export default function NavigationLogged() {
 
 const screenOptions = (route, color) =>{
     let iconName;
-    switch(route.name){
-        case 'about':
-            iconName = 'information-outline';
+    switch (route.name) {
+        case 'home':
+            iconName = 'home-circle-outline'
             break;
-        case 'profile':
-            iconName = 'account-circle-outline';
+        case 'rentas':
+            iconName = 'cash'
+            break
+        case 'perfil':
+            iconName = 'account'
+        default:
             break;
     }
     return (<Icon type='material-community' name={iconName} size={22} color={color} />)
